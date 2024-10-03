@@ -1,0 +1,29 @@
+@startuml
+
+skinparam linetype ortho
+skinparam nodesep 100
+skinparam ranksep 250
+skinparam MinLinkLength 200
+
+node "Browser" as Device {
+    component "Frontend" as UI
+    component "Backend" as API
+}
+
+node "Database" as DB {
+    database "PostgreSQL" as PG
+}
+
+node "Storage" as ST {
+    storage "AWS S3" as S3
+}
+
+Device -[hidden]down- DB
+DB -[hidden]right- ST
+
+UI -[hidden]right- API
+
+API -down-> PG : Requests\ninformation
+API -right-> S3 : Retrieves\nfiles
+
+@enduml

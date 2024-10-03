@@ -1,0 +1,39 @@
+@startuml
+skinparam actorStyle awesome
+skinparam linetype ortho
+skinparam nodesep 80
+skinparam ranksep 200
+
+actor Buyer
+actor Supplier
+actor Admin
+
+node "RawMats" as RM {
+    component "UI" as UI
+    component "API" as API
+}
+
+node "Database" as DB {
+    database "PostgreSQL"
+}
+
+node "Storage" as ST {
+    storage "AWS S3"
+}
+
+' Positioning
+Buyer -[hidden]right- Supplier
+Supplier -[hidden]right- Admin
+Admin -[hidden]down- RM
+RM -[hidden]down- DB
+DB -[hidden]right- ST
+
+' Connections
+Buyer -right-> RM : wants to buy\nmaterials
+Supplier -right-> RM : wants to sell\nmaterials
+Admin -down-> RM : approves or denies\nlistings or users
+
+RM -down-> DB : sends and\nretrieves data to
+RM -down-> ST : sends and\nretrieves files to
+
+@enduml
